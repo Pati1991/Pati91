@@ -1,0 +1,21 @@
+.modal > section.directory { width: min(820px, 100%); max-height: 88vh; overflow: auto; }
+.directory-stats { display: flex; gap: 8px; margin: 16px 0; }
+.directory-stats span { flex: 1; padding: 10px; border: 1px solid #344148; background: #0e1519; color: #85939a; font: 8px monospace; }
+.directory-stats b { display: block; margin-bottom: 3px; color: #e5ecef; font-size: 18px; }
+.station-list { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.station-list > article { border: 1px solid #303d43; background: #0e1417; }
+.station-list article > header { display: flex; align-items: center; justify-content: space-between; padding: 9px 10px; border-bottom: 1px solid #2a353a; background: #151d21; }
+.station-list header div { display: flex; flex-direction: column; }
+.station-list header b { font-size: 11px; }
+.station-list header small { margin-top: 2px; color: #75838a; font: 8px monospace; }
+.station-list header em { color: #53b8ca; font: 8px monospace; font-style: normal; }
+.directory-unit { display: grid; grid-template-columns: 27px 1fr auto; align-items: center; padding: 8px 9px; border-top: 1px solid #202a2e; }
+.directory-unit > i { display: grid; place-items: center; width: 22px; height: 22px; border: 1px solid #3e6872; color: #61b9ca; font: bold 7px monospace; font-style: normal; }
+.directory-unit span { display: flex; flex-direction: column; }
+.directory-unit span b { font-size: 9px; }.directory-unit span small { margin-top: 2px; color: #718087; font: 7px monospace; }
+.directory-unit > em { font: 7px monospace; font-style: normal; }.directory-unit > em.free { color: #9fcb6d; }.directory-unit > em.busy { color: #df756f; }
+@media(max-width:650px){.station-list{grid-template-columns:1fr}.directory-stats{flex-direction:column}}
+.public-list { max-height: 52vh; overflow: auto; padding-right: 4px; }
+.public-list > article { content-visibility: auto; contain-intrinsic-size: 95px; }
+.directory-heading { margin: 18px 0 8px; color: #b9c4c9; font-size: 11px; letter-spacing: .5px; }
+.rescue-list { max-height: 260px; overflow: auto; padding-right: 4px; }

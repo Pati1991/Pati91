@@ -1,0 +1,22 @@
+.notify { padding: 7px 10px; border: 1px solid #3a464c; background: #171e22; color: #87949b; font: 9px monospace; letter-spacing: .5px; cursor: pointer; }
+.notify span { color: #69757b; margin-right: 6px; }
+.notify.on { border-color: #476348; color: #a4d2ab; background: #17231b; }
+.notify.on span { color: #68c77b; text-shadow: 0 0 7px #68c77b; }
+.rubric-handle{position:fixed;z-index:42;right:0;top:92px;width:44px;min-height:126px;padding:10px 5px;border:1px solid #405059;border-right:0;background:#172126;color:#dbe5e9;cursor:pointer;box-shadow:-5px 8px 20px #0008;transition:right .25s ease}.rubric-handle>span{display:block;margin-top:8px;font:8px monospace;letter-spacing:1px;writing-mode:vertical-rl}.rubric-handle.open{right:280px}.rubric-drawer{position:fixed;z-index:41;right:0;top:64px;bottom:30px;width:280px;padding:18px;display:flex;flex-direction:column;gap:9px;border-left:1px solid #3a484f;background:#10171bea;box-shadow:-14px 0 35px #000a;backdrop-filter:blur(8px);transform:translateX(100%);transition:transform .25s ease}.rubric-drawer.open{transform:translateX(0)}.rubric-drawer .notify{width:100%;min-height:46px;text-align:left}.rubric-head{display:flex;flex-direction:column;padding:4px 2px 12px;border-bottom:1px solid #303b40}.rubric-head small{color:#53b8ca;font:8px monospace}.rubric-head b{margin-top:4px;font-size:17px}
+@media (max-width: 800px) { .notify { margin-left: auto; margin-right: 8px; } }
+.vehicle-marker { position: absolute; z-index: 4; transform: translate(-50%, -50%); display: flex; align-items: center; background: #11191eef; border: 1px solid #62bf76; color: #edf5ef; padding: 5px 8px 5px 5px; box-shadow: 0 4px 14px #0008; pointer-events: none; transition: left 1s linear, top 1s linear; }
+.vehicle-marker > i { display: grid; place-items: center; width: 25px; height: 25px; margin-right: 6px; background: #2a7340; color: white; font: bold 8px monospace; font-style: normal; }
+.vehicle-marker span { display: flex; flex-direction: column; white-space: nowrap; }
+.vehicle-marker b { font-size: 9px; }
+.vehicle-marker small { margin-top: 2px; color: #8ecf9b; font: 7px monospace; }
+.vehicle-marker.moving { border-color: #53b8ca; animation: vehiclePulse 1.3s infinite alternate; }
+.vehicle-marker.moving > i { background: #217488; }
+.vehicle-marker.moving small { color: #79cad9; }
+.map .pin { left: 50%; top: 50%; }
+@keyframes vehiclePulse { from { box-shadow: 0 3px 12px #0008; } to { box-shadow: 0 0 18px #53b8ca99; } }
+.radio { position: absolute; z-index: 5; right: 14px; bottom: 48px; width: 230px; padding: 10px; border: 1px solid #34464f; background: #0d151aee; box-shadow: 0 8px 25px #0008; }.radio > small { color: #53b8ca; font: 8px monospace; }.radio p { display: flex; justify-content: space-between; gap: 8px; margin: 7px 0 0; padding-top: 7px; border-top: 1px solid #29363c; }.radio b { font-size: 8px; }.radio span { color: #9fcb6d; font: 7px monospace; text-align: right; }
+.modal { position: fixed; z-index: 30; inset: 0; display: grid; place-items: center; padding: 25px; background: #05090cdd; backdrop-filter: blur(5px); }
+.modal > section { position: relative; width: min(680px, 100%); padding: 28px; border: 1px solid #34434a; background: #12191d; box-shadow: 0 20px 70px #000b; }
+.modal > section > button { position: absolute; right: 14px; top: 10px; border: 0; background: none; color: #95a2a9; font-size: 24px; cursor: pointer; }
+.modal h2 { margin: 6px 0 8px; font-size: 23px; }.modal p { color: #93a1a8; font-size: 11px; line-height: 1.5; }.modal > section > small { color: #53b8ca; font: 9px monospace; }
+.orggrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 18px 0; }.orggrid article { padding: 14px; border: 1px solid #303d43; background: #0f1518; display: flex; flex-direction: column; }.orggrid b { color: #e8eef2; font-size: 24px; }.orggrid span { margin: 3px 0 6px; font-size: 11px; font-weight: bold; }.orggrid small,.source { color: #78868d; font: 8px monospace; }
