@@ -1,6 +1,7 @@
 packages:
   - "."
-  allowBuilds:
+
+allowBuilds:
   esbuild: true
   sharp: true
-  workerd: true
+  wrangler: true
