@@ -247,7 +247,7 @@ const worker = {
       }, allowedWidths);
     }
 
-    if (url.pathname.startsWith("/api/auth/")) return authApi(request, runtimeEnv);
+    if (url.pathname.startsWith("/api/auth/") || url.pathname === "/api/state") return authApi(request, runtimeEnv);
     if (url.pathname === "/auth") return authPage(request, Boolean(runtimeEnv.INVITE_CODE));
     if (!isPublicAsset(url.pathname)) {
       if (!runtimeEnv.DB) return Response.redirect(new URL("/auth", request.url), 302);
