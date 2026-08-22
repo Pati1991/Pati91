@@ -207,8 +207,6 @@ useEffect(() => {
 
       const data = await response.json();
 
-  const data = await response.json();
-
 if (!cancelled && Array.isArray(data.activeIncidents)) {
   setActiveIncidents(data.activeIncidents);
 }
