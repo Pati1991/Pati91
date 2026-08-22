@@ -130,7 +130,48 @@ async function authApi(request: Request, env: Env) {
     const user = await authenticatedUser(request, env.DB);
     return user ? json({ user }) : json({ error: "Nicht angemeldet" }, 401);
   }
+if (url.pathname === "/api/state") {
+  const user = await authenticatedUser(request, env.DB);
+  if (!user) return json({ error: "Nicht angemeldet" }, 401);
 
+  if (request.method === "GET") {
+    const row = await env.DB
+      .prepare("SELECT active_incidents FROM user_state WHERE user_id = ?")
+      .bind(user.id)
+      .first<{ active_incidents: string }>();
+
+    let activeIncidents: unknown[] = [];
+
+    if (row?.active_incidents) {
+      try {
+        activeIncidents = JSON.parse(row.active_incidents);
+      } catch {}
+    }
+
+    return json({ activeIncidents });
+  }
+
+  if (request.method === "POST") {
+    if (!validSameOrigin(request))
+      return json({ error: "Ungültige Anfrage" }, 403);
+
+    const body = await requestBody(request);
+    const activeIncidents = Array.isArray(body.activeIncidents)
+      ? body.activeIncidents
+      : [];
+
+    await env.DB
+      .prepare(
+        "INSERT INTO user_state (user_id, active_incidents, updated_at) VALUES (?, ?, ?) ON CONFLICT(user_id) DO UPDATE SET active_incidents = excluded.active_incidents, updated_at = excluded.updated_at"
+      )
+      .bind(user.id, JSON.stringify(activeIncidents), Date.now())
+      .run();
+
+    return json({ ok: true });
+  }
+
+  return json({ error: "Methode nicht erlaubt" }, 405);
+}
   if (request.method !== "POST" || !validSameOrigin(request)) return json({ error: "Ungültige Anfrage" }, 403);
 
   if (url.pathname === "/api/auth/logout") {
