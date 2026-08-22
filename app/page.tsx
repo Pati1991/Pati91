@@ -207,16 +207,17 @@ useEffect(() => {
 
       const data = await response.json();
 
-   if (!cancelled && Array.isArray(data.activeIncidents)) {
+  const data = await response.json();
+
+if (!cancelled && Array.isArray(data.activeIncidents)) {
   setActiveIncidents(data.activeIncidents);
 }
- 
-    } catch {
-      // Beim Ladefehler Leitstelle normal weiterlaufen lassen.
-    } finally {
-      if (!cancelled) stateLoaded.current = true;
-    }
-  })();
+} catch {
+  // Beim Ladefehler Leitstelle normal weiterlaufen lassen.
+} finally {
+  if (!cancelled) stateLoaded.current = true;
+}
+})();
 
   return () => {
     cancelled = true;
