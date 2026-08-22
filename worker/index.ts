@@ -143,9 +143,12 @@ async function authApi(request: Request, env: Env) {
   const email = String(body.email ?? "").trim().toLowerCase();
   const password = String(body.password ?? "");
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) return json({ error: "Bitte eine gültige E-Mail-Adresse eingeben." }, 400);
-  if (password.length < 10 || password.length > 128) return json({ error: "Das Passwort muss mindestens 10 Zeichen lang sein." }, 400);
+  if (password.length < 1 || password.length > 128) return json({ error: "Das Passwort muss mindestens 10 Zeichen lang sein." }, 400);
 
   if (url.pathname === "/api/auth/register") {
+    if (password.length < 10 || password.length > 128)
+  return json({ error: "Das Passwort muss mindestens 10 Zeichen lang sein." }, 400);
+    
     const inviteCode = String(body.inviteCode ?? "");
     if (!env.INVITE_CODE) return json({ error: "Der Einladungscode wurde auf Cloudflare noch nicht eingerichtet." }, 503);
     if (!safeEqual(inviteCode, env.INVITE_CODE)) return json({ error: "Der Einladungscode ist nicht richtig." }, 403);
