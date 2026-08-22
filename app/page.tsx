@@ -197,7 +197,7 @@ export default function Home(){
 useEffect(() => {
   let cancelled = false;
 
-  (async () => {
+  const loadState = async () => {
     try {
       const response = await fetch("/api/state", {
         credentials: "include",
@@ -207,21 +207,24 @@ useEffect(() => {
 
       const data = await response.json();
 
-if (!cancelled && Array.isArray(data.activeIncidents)) {
-  setActiveIncidents(data.activeIncidents);
-}
-} catch {
-  // Beim Ladefehler Leitstelle normal weiterlaufen lassen.
-} finally {
-  if (!cancelled) stateLoaded.current = true;
-}
-})();
+      if (!cancelled && Array.isArray(data.activeIncidents)) {
+        setActiveIncidents(data.activeIncidents);
+      }
+    } catch {
+      // Beim Ladefehler Leitstelle normal weiterlaufen lassen.
+    } finally {
+      if (!cancelled) {
+        stateLoaded.current = true;
+      }
+    }
+  };
+
+  void loadState();
 
   return () => {
     cancelled = true;
   };
 }, []);
-
 useEffect(() => {
   if (!stateLoaded.current) return;
 
