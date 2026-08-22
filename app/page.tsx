@@ -192,6 +192,52 @@ const vehicleCapabilities=(vehicles:string[])=>[...new Set(vehicles.flatMap(vehi
 
 export default function Home(){
  const [incident,setIncident]=useState(()=>{const previous=typeof window!=="undefined"?localStorage.getItem("leitstelle-last-place")??"":"",created=createIncident(previous);if(typeof window!=="undefined")localStorage.setItem("leitstelle-last-place",created.place);return created}), [incidentNumber,setIncidentNumber]=useState(()=>100000+Math.floor(Math.random()*900000)), [phase,setPhase]=useState<"call"|"dispatch"|"alerted"|"returning"|"waiting">("call"), [selected,setSelected]=useState<string[]>([]), [busy,setBusy]=useState<string[]>([]), [progress,setProgress]=useState<Record<string,number>>({}), [routes,setRoutes]=useState<Record<string,[number,number][]>>({}), [activeIncidents,setActiveIncidents]=useState<ActiveIncident[]>([]), [activePanel,setActivePanel]=useState(false), [activeClock,setActiveClock]=useState(()=>Date.now()), [waitSeconds,setWaitSeconds]=useState(0), [score,setScore]=useState(0), [resolved,setResolved]=useState(0), [notifications,setNotifications]=useState(false), [pushState,setPushState]=useState<"off"|"active"|"blocked"|"unsupported">("off"), [elapsed,setElapsed]=useState(0), [directory,setDirectory]=useState(false), [voicePanel,setVoicePanel]=useState(false), [navOpen,setNavOpen]=useState(false), [expandedFire,setExpandedFire]=useState<string|null>(null), [fireVehicleSelection,setFireVehicleSelection]=useState<Record<string,string[]>>({}), [localSignedOut,setLocalSignedOut]=useState(false), [voices,setVoices]=useState<SpeechSynthesisVoice[]>([]), [voiceName,setVoiceName]=useState(""); const timer=useRef<ReturnType<typeof setInterval>|null>(null), audioContext=useRef<AudioContext|null>(null), ringTimer=useRef<ReturnType<typeof setInterval>|null>(null), nextCallTimer=useRef<ReturnType<typeof setTimeout>|null>(null);
+  const stateLoaded = useRef(false);
+
+useEffect(() => {
+  let cancelled = false;
+
+  (async () => {
+    try {
+      const response = await fetch("/api/state", {
+        credentials: "include",
+      });
+
+      if (!response.ok) return;
+
+      const data = await response.json();
+
+      if (!cancelled && Array.isArray(data.activeIncidents)) {
+        setActiveIncidents(data.activeIncidents);
+      }
+    } catch {
+      // Beim Ladefehler Leitstelle normal weiterlaufen lassen.
+    } finally {
+      if (!cancelled) stateLoaded.current = true;
+    }
+  })();
+
+  return () => {
+    cancelled = true;
+  };
+}, []);
+
+useEffect(() => {
+  if (!stateLoaded.current) return;
+
+  const timer = window.setTimeout(() => {
+    fetch("/api/state", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ activeIncidents }),
+    }).catch(() => {});
+  }, 300);
+
+  return () => window.clearTimeout(timer);
+}, [activeIncidents]);
  useEffect(()=>{timer.current=setInterval(()=>setElapsed(e=>e+1),1000);return()=>{if(timer.current)clearInterval(timer.current)}},[]);
  useEffect(()=>{const clock=setInterval(()=>setActiveClock(Date.now()),1000);return()=>clearInterval(clock)},[]);
  useEffect(()=>{const expired=activeIncidents.filter(e=>e.finishedAt<=activeClock);if(!expired.length)return;const freed=new Set(expired.flatMap(e=>e.unitIds));setActiveIncidents(list=>list.filter(e=>e.finishedAt>activeClock));setBusy(ids=>ids.filter(id=>!freed.has(id)))},[activeClock,activeIncidents]);
