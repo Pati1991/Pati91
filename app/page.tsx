@@ -207,12 +207,10 @@ useEffect(() => {
 
       const data = await response.json();
 
-    if (!cancelled && Array.isArray(data.activeIncidents)) {
-  setActiveIncidents(data.activeIncidents);
-
- if (!cancelled && Array.isArray(data.activeIncidents)) {
+   if (!cancelled && Array.isArray(data.activeIncidents)) {
   setActiveIncidents(data.activeIncidents);
 }
+ 
     } catch {
       // Beim Ladefehler Leitstelle normal weiterlaufen lassen.
     } finally {
