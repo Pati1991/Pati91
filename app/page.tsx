@@ -210,15 +210,8 @@ useEffect(() => {
     if (!cancelled && Array.isArray(data.activeIncidents)) {
   setActiveIncidents(data.activeIncidents);
 
-  if (data.activeIncidents.length > 0) {
-    const restored = data.activeIncidents[0];
-
-    setIncident(restored.scenario);
-    setIncidentNumber(restored.id);
-    setSelected(restored.unitIds ?? []);
-    setBusy(new Set(restored.unitIds ?? []));
-    setPhase("alerted");
-  }
+ if (!cancelled && Array.isArray(data.activeIncidents)) {
+  setActiveIncidents(data.activeIncidents);
 }
     } catch {
       // Beim Ladefehler Leitstelle normal weiterlaufen lassen.
